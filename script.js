@@ -205,9 +205,16 @@ function renderPie() {
             chart.validateData();
             chart.animateAgain();
           }
-
+        },{
+          event: "clickSlice",
+          method: function(vis){
+            var elemNumber = vis.dataItem.dataContext.elemNumber;
+            selectValues("pie", 0, [elemNumber]);
+          }
         }],
+
       });
+
 
       chart.addListener("rollOverSlice", function(e) {
         handleRollOver(e);
