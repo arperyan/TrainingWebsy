@@ -1,3 +1,9 @@
+app.createSessionObject(chapieDef).then (function (objModel){
+      //console.log(objModel);
+      senseObjects.pie = objModel;
+      charenderPie();
+    });
+
 function charenderPie() {
   senseObjects.pie.getLayout().then (function (layout){
     if(layout.qHyperCube.qDataPages[0]){
