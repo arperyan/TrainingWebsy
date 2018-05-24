@@ -1,0 +1,66 @@
+function charenderPie() {
+  senseObjects.pie.getLayout().then (function (layout){
+    if(layout.qHyperCube.qDataPages[0]){
+      var senseData = layout.qHyperCube.qDataPages[0].qMatrix;
+        var ctx = document.getElementById("myChart").getContext('2d');
+
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: senseData.map(function(d) { return d[0].qText; }),
+                datasets: [{
+                    label: '# of Votes',
+                    data: senseData.map(function(d) { return d[1].qNum; }),
+                    backgroundColor: [
+                        '#004fb6',
+                        '#64b445',
+                        '#ffd900',
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 206, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(153, 102, 255)',
+                        'rgb(255, 159, 64)'
+                    ],
+                    borderColor: [
+                        '#004fb6',
+                        '#64b445',
+                        '#ffd900',
+                        'rgb(255,99,132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 206, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(153, 102, 255)',
+                        'rgb(255, 159, 64)'
+                    ],
+                    borderWith: 0
+                }]
+            },
+            options: {
+                cutoutPercentage: 87,
+                legend: {
+                    display: false
+                },
+                responsive: true,
+                events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
+                onClick: function(evt) {
+                  // var activePoints = this.getElementAtEvent(evt);
+                  // if(activePoints.length > 0) {
+                  //   selectValues("pie", 0, [activePoints]);
+                  // }
+                  var self = this;
+                  var activePoints = myChart.getElementsAtEvent(evt);
+                  var firstPoint = activePoints[0];
+                  var label = myChart.data.labels[firstPoint._index];
+                  var value = myChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+                  // if(activePoints.length > 0) {
+                    console.log([value]);
+                    selectValues("pie", [parseInt(value)], true);
+                  // }
+                }
+            }
+
+        })
+    }
+  })
+}
